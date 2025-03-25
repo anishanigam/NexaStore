@@ -15,7 +15,7 @@ const ShopContextProvider = (props) => {
     const [cartItems,setCartItems] = useState({});
     const [products , setProducts] = useState([]);
     const [token,setToken] = useState('')
-    const navigate  = useNavigate
+    const navigate  = useNavigate ()
 
     const addToCart = async (itemId , size) =>{
 
@@ -95,12 +95,11 @@ const ShopContextProvider = (props) => {
         let totalAmount = 0 ;
         for(const items in cartItems){
             const itemInfo = products.find((product) => product._id === items);
+            if (!itemInfo) continue;
             for(const item in cartItems[items]){
-                try {
+                
                    if(cartItems[items][item] > 0){
                     totalAmount += itemInfo.price * cartItems[items][item];
-                   } 
-                } catch (error) {
                     
                 }
                 
@@ -113,14 +112,17 @@ const ShopContextProvider = (props) => {
 
     const getProductsData = async () => {
         try {
+            console.log("Backend URL being used:", backendUrl);
             const response = await axios.get(backendUrl + '/api/product/list')
             if(response.data.success){
                 setProducts(response.data.products)
+                console.log("Fetched products:", response.data.products);
             }else {
                 toast.error(response.data.message)
+                console.error("API responded with error:", response.data.message);
             }
         } catch (error) {
-            console.log(error);
+            console.log("Error fetching products:",  error.response ? error.response.data : error.message);
             toast.error(error.message)
         }
     }
@@ -136,19 +138,24 @@ const ShopContextProvider = (props) => {
             toast.error(error.message)
         }
     }
-      
+
+    useEffect(() => {
+        getProductsData();
+    }, []);
 
 
     useEffect(() => {
-      getProductsData();
-    },[])
+        console.log("Updated products:", products);
+    }, [products]);
 
+    
     useEffect(() => {
-        if(!token && localStorage.getItem('token') ){
-            setToken(localStorage.getItem('token'))
-            getUserCart(localStorage.getItem('token'))
+        const storedToken = localStorage.getItem('token');
+        if (!token && storedToken) {
+            setToken(storedToken);
+            getUserCart(storedToken);
         }
-    },[])
+    }, []);
     
 
 
