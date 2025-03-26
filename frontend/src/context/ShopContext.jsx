@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 
 
 export const ShopContext = createContext();
@@ -60,7 +61,9 @@ const ShopContextProvider = (props) => {
                     totalCount += cartItems[items][item];
                    } 
                 } catch (error) {
-                    
+                    console.log(error);
+                toast.error(error.message)
+            
                 }
                 
             }
@@ -127,7 +130,7 @@ const ShopContextProvider = (props) => {
         }
     }
 
-    const getUserCart = async (token) => {
+    const getUserCart = useCallback(async (token) => {
         try {
             const response = await axios.post(backendUrl + '/api/cart/get' , {} , {headers : {token}})
             if(response.data.success){
@@ -137,11 +140,11 @@ const ShopContextProvider = (props) => {
             console.log(error);
             toast.error(error.message)
         }
-    }
+    }, [backendUrl]);
 
     useEffect(() => {
         getProductsData();
-    }, []);
+    }, );
 
 
     useEffect(() => {
@@ -155,7 +158,7 @@ const ShopContextProvider = (props) => {
             setToken(storedToken);
             getUserCart(storedToken);
         }
-    }, []);
+    }, [getUserCart, token]);
     
 
 
