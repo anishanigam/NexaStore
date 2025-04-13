@@ -30,7 +30,7 @@ const addProduct = async (req, res) => {
 
         await product.save();
         
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: 'Product added successfully',
             product
@@ -52,12 +52,12 @@ const addProduct = async (req, res) => {
         const products = await productModel.find();
 
         if (products.length === 0) {
-            return res.status(404).json({ success: false, message: "No products found" });
+            return res.status(400).json({ success: false, message: "No products found" });
         }
 
         res.status(200).json({ success: true, products });
     } catch (error) {
-        console.error("❌ Error fetching products:", error);
+        console.error(" Error fetching products:", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
@@ -66,11 +66,11 @@ const addProduct = async (req, res) => {
 const removeProduct = async (req, res) => {
     try {
         await productModel.findByIdAndDelete(req.body.id)
-        res.json({success:true , message: "Product Removed"})
+        res.status(200).json({success:true , message: "Product Removed"})
         
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 
 }
@@ -80,10 +80,10 @@ const singleProduct = async (req, res) => {
     try {
         const {productId} = req.body
         const product = await productModel.findById(productId)
-        res.json({success:true , product})
+        res.status(200).json({success:true , product})
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 
 }

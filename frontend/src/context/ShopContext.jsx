@@ -18,7 +18,7 @@ const ShopContextProvider = (props) => {
     const [token,setToken] = useState('')
     const navigate  = useNavigate ()
 
-    const addToCart = async (itemId, size) => {
+    const addToCart = async (itemId, size, userId) => {
         if (!size) {
           toast.error('Please select a size');
           return;
@@ -47,13 +47,27 @@ const ShopContextProvider = (props) => {
           try {
             await axios.post(
               backendUrl + '/api/cart/add',
-              { itemId, size },
+              { itemId, size ,userId},
               { headers: { token } }
             );
+            toast.success("Item added to cart!");
           } catch (error) {
-            console.log(error);
-            toast.error(error.message);
-          }
+            
+                console.log("AXIOS ERROR:", error); // log full error for clarity
+              
+                if (error.response) {
+                  // Backend responded with an error status
+                  toast.error(error.response.data.message || "Something went wrong");
+                } else if (error.request) {
+                  // Request was made but no response (likely network issue)
+                  toast.error("No response from server. Please check your connection or backend.");
+                } else {
+                  // Something else
+                  toast.error("An error occurred: " + error.message);
+                }
+              }
+              
+          
         }
       };
       

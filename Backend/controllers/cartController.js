@@ -3,7 +3,8 @@ import userModel from "../models/userModel.js";
 // add products to user cart
 const addToCart = async (req, res) => {
     try {
-        const { userId ,size, itemId } = req.body;
+        const userId = req.userId;
+        const {  size, itemId } = req.body;
 
         const userData = await userModel.findById(userId)
         let cart = await userData?.cart;
@@ -20,11 +21,11 @@ const addToCart = async (req, res) => {
         }
 
         await userModel.findByIdAndUpdate(userId , {cart})
-
-        res.json({success:true , message : "Item added to cart"})
+        console.log("ADD TO CART", req.body);
+        res.status(200).json({success:true , message : "Item added to cart"})
     }catch (error) {
         console.log(error);
-        res.json({success:false , message : error.message})
+        res.status(500).json({success:false , message : error.message})
     }
  }
 
@@ -45,7 +46,7 @@ const updateCart = async (req, res) => {
         res.json({success:true , message : "Cart updated"})
     } catch (error) {
         console.log(error);
-        res.json({success:false , message : error.message})
+        res.status(500).json({success:false , message : error.message})
     }
 }
 
@@ -61,7 +62,7 @@ const getUserCart = async (req, res) => {
         res.json({success:true , cart})
     } catch (error) {
         console.log(error);
-        res.json({success:false , message : error.message})
+        res.status(500).json({success:false , message : error.message})
     }
 }
 
