@@ -22,13 +22,30 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ✅ CORS Setup
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+
 const corsOptions = {
-  origin: "http://localhost:5173",  // Allow frontend
+  origin: function (origin, callback) {
+    // Allow requests with no origin (e.g., curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization','token'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'token'],
   credentials: true
 };
 app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "http://localhost:5173",  // Allow frontend
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization','token'],
+//   credentials: true
+// };
+// app.use(cors(corsOptions));
 
 // ✅ Multer Storage Setup for File Uploads
 const storage = multer.diskStorage({
