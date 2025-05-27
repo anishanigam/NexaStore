@@ -13,7 +13,7 @@ const Product = () => {
   const [image, setImage] = useState('')
   const [size, setSize] = useState()
 
-  
+
 
   useEffect(() => {
     const foundProduct = products.find((item) => item._id === productId);
@@ -21,10 +21,14 @@ const Product = () => {
     if (foundProduct) {
       setProductData(foundProduct);
       setImage(foundProduct.image[0]);
-    } 
+    }
   }, [productId, products]);
 
-  const parsedSizes = productData?.sizes ? JSON.parse(productData.sizes) : [];
+  const SIZE_ORDER = ['S', 'M', 'L', 'XL', 'XXL'];
+
+  const parsedSizes = productData?.sizes
+    ? SIZE_ORDER.filter(size => JSON.parse(productData.sizes).map(s => s.toUpperCase()).includes(size))
+    : [];
 
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
@@ -34,9 +38,9 @@ const Product = () => {
         <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
           <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
             {Array.isArray(productData.image) && productData.image.map((item, index) => (
-              <img onClick={() => setImage(item)}  src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item}`} key={index} className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer' alt="" />
+              <img onClick={() => setImage(item)} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item}`} key={index} className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer' alt="" />
             ))}
-            
+
 
           </div>
           <div className='w-full sm:w-[80%]'>
