@@ -13,9 +13,14 @@ const loginUser = async(req,res) => {
     try{
         const {email , password} = req.body;
 
+        console.log("Trying to login with:", email);
+
+
+
         const user = await userModel.findOne({
             email
-        })      
+        }) ;  
+        console.log("Found user:", user);   
         if(!user){
             return res.json({success:false , message : "User not found"})
         }

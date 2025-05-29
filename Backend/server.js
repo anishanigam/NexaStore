@@ -39,15 +39,8 @@ const corsOptions = {
   credentials: true
 };
 app.use(cors(corsOptions));
-// const corsOptions = {
-//   origin: "http://localhost:5173",  // Allow frontend
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization','token'],
-//   credentials: true
-// };
-// app.use(cors(corsOptions));
 
-// ✅ Multer Storage Setup for File Uploads
+//  Multer Storage Setup for File Uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');  // Save images in uploads folder
@@ -58,7 +51,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// ✅ Image Upload Route
+// Image Upload Route
 app.post('/api/upload', upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ success: false, message: 'No file uploaded' });
@@ -66,7 +59,7 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
   res.json({ success: true, imageUrl: `/uploads/${req.file.filename}` });
 });
 
-// ✅ Routes
+//  Routes
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
@@ -74,7 +67,7 @@ app.use('/api/order', orderRouter);
 
 app.get('/', (req, res) => res.send('API working'));
 
-// ✅ Start Server
+// Start Server
 const startServer = async () => {
     try {
         console.log("Connecting to database...");
