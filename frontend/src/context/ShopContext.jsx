@@ -18,7 +18,7 @@ const ShopContextProvider = (props) => {
     const [token, setToken] = useState('')
     const navigate = useNavigate()
 
-    const addToCart = async (itemId, size, userId) => {
+    const addToCart = async (itemId, size) => {
         if (!size) {
             toast.error('Please select a size');
             return;
@@ -54,7 +54,7 @@ const ShopContextProvider = (props) => {
             try {
                 await axios.post(
                     backendUrl + '/api/cart/add',
-                    { itemId, size, userId },
+                    { itemId, size },
                     { headers: { token } }
                 ).then((response) => {
                     if (response.data.status === 'incremented') {
