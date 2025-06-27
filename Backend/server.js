@@ -24,21 +24,30 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // ✅ CORS Setup
 const allowedOrigins = ['https://nexa-store-one.vercel.app/', 'https://nexa-store-q5dm.vercel.app/'];
 
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     // Allow requests with no origin (e.g., curl, Postman)
+//     if (!origin) return callback(null, true);
+//     if (allowedOrigins.includes(origin)) {
+//       return callback(null, true);
+//     } else {
+//       return callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'token'],
+//   credentials: true
+// };
+// app.use(cors(corsOptions));
+
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (e.g., curl, Postman)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'token'],
-  credentials: true
+  credentials: true,
 };
 app.use(cors(corsOptions));
+
 
 //  Multer Storage Setup for File Uploads
 const storage = multer.diskStorage({
