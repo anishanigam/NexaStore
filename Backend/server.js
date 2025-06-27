@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ✅ CORS Setup
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = ['https://nexa-store-one.vercel.app/', 'https://nexa-store-q5dm.vercel.app/'];
 
 const corsOptions = {
   origin: function (origin, callback) {
