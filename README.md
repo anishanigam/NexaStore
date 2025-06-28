@@ -8,6 +8,9 @@ NexaStore is a modular, full-stack e-commerce platform built with a modern tech 
 
 - ⚡️ Superfast frontend with [Vite](https://vitejs.dev/)
 - 🛠️ Modular backend using Node.js & Express
+- 🛒 Category-wise product search & sorting
+- 💳 Built-in payment methods: Stripe, Cash on Delivery (COD), Razorpay
+- 🔐 JWT-based authentication for secure sessions
 - 🛒 Ready for e-commerce expansion, with separate admin dashboard
 - 🏗️ Organized project structure for easy scaling
 - 🚀 Quick start scripts for development and server
