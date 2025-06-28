@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ✅ CORS Setup
-const allowedOrigins = ['https://nexa-store-one.vercel.app/', 'https://nexa-store-q5dm.vercel.app/'];
+// const allowedOrigins = ['http://localhost:3000', 'https://nexa-store-nine.vercel.app', 'https://nexa-store-1spa.vercel.app/'];
 
 // const corsOptions = {
 //   origin: function (origin, callback) {
@@ -41,7 +41,7 @@ const allowedOrigins = ['https://nexa-store-one.vercel.app/', 'https://nexa-stor
 // app.use(cors(corsOptions));
 
 const corsOptions = {
-  origin: true,
+  origin:['https://nexa-store-nine.vercel.app', 'https://nexa-store-1spa.vercel.app/'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'token'],
   credentials: true,
