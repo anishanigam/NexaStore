@@ -110,12 +110,6 @@ NexaStore/
 ---
 
 
-## License
-
-[MIT](LICENSE)
-
----
-
 > Made by Anisha ❤ using [Vite](https://vitejs.dev/)# NexaStore
 
 
